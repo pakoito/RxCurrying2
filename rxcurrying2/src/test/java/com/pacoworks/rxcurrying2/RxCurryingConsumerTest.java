@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) pakoito 2017
  *
@@ -20,24 +19,21 @@ package com.pacoworks.rxcurrying2;
 import org.junit.Assert;
 import org.junit.Test;
 
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func1;
+import io.reactivex.functions.BiConsumer;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 
-/**
- * Created by Paco on 14/02/2016. See LICENSE.md
- */
 public class RxCurryingConsumerTest {
     @Test
     public void curry() throws Exception {
-        Func1<Integer, Action1<Integer>> variable = RxCurryingConsumer
-                .curry(new Action2<Integer, Integer>() {
+        Function<Integer, Consumer<Integer>> variable = RxCurryingConsumer
+                .curry(new BiConsumer<Integer, Integer>() {
                     @Override
-                    public void call(Integer first, Integer second) {
+                    public void accept(Integer first, Integer second) {
                         Assert.assertEquals(5, first + second);
                     }
                 });
-        Action1<Integer> firstForm = variable.call(3);
-        firstForm.call(2);
+        Consumer<Integer> firstForm = variable.apply(3);
+        firstForm.accept(2);
     }
 }

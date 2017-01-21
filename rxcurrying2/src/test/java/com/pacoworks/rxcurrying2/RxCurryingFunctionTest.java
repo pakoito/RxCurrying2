@@ -19,25 +19,22 @@ package com.pacoworks.rxcurrying2;
 import org.junit.Assert;
 import org.junit.Test;
 
-import rx.functions.Func1;
-import rx.functions.Func5;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Function5;
 
-/**
- * Created by Paco on 14/02/2016. See LICENSE.md
- */
 public class RxCurryingFunctionTest {
     @Test
     public void curry() throws Exception {
-        Func1<String, Func1<String, Func1<String, Func1<String, Func1<String, String>>>>> secondVariable = RxCurryingFunction
-                .curry(new Func5<String, String, String, String, String, String>() {
+        Function<String, Function<String, Function<String, Function<String, Function<String, String>>>>> secondVariable = RxCurryingFunction
+                .curry(new Function5<String, String, String, String, String, String>() {
                     @Override
-                    public String call(String first, String second, String third, String fourth,
+                    public String apply(String first, String second, String third, String fourth,
                             String fifth) {
                         return first + second + third + fourth + fifth;
                     }
                 });
-        String result = secondVariable.call("Hello ").call("This ").call("Is ").call("Curried ")
-                .call("Func");
+        String result = secondVariable.apply("Hello ").apply("This ").apply("Is ").apply("Curried ")
+                .apply("Func");
         Assert.assertEquals("Hello This Is Curried Func", result);
     }
 }
