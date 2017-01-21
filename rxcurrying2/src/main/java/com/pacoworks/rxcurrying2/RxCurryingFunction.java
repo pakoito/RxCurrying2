@@ -16,7 +16,15 @@
 
 package com.pacoworks.rxcurrying2;
 
-import rx.functions.*;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Function3;
+import io.reactivex.functions.Function4;
+import io.reactivex.functions.Function5;
+import io.reactivex.functions.Function6;
+import io.reactivex.functions.Function7;
+import io.reactivex.functions.Function8;
+import io.reactivex.functions.Function9;
 
 /**
  * Helper class to curry FuncN objects
@@ -28,31 +36,31 @@ public class RxCurryingFunction {
         // No instances
     }
 
-    public static <A, B, R> Func1<A, Func1<B, R>> curry(final Func2<A, B, R> func) {
-        return new Func1<A, Func1<B, R>>() {
+    public static <A, B, R> Function<A, Function<B, R>> curry(final BiFunction<A, B, R> func) {
+        return new Function<A, Function<B, R>>() {
             @Override
-            public Func1<B, R> call(final A a) {
-                return new Func1<B, R>() {
+            public Function<B, R> apply(final A a) throws Exception {
+                return new Function<B, R>() {
                     @Override
-                    public R call(final B b) {
-                        return func.call(a, b);
+                    public R apply(final B b) throws Exception {
+                        return func.apply(a, b);
                     }
                 };
             }
         };
     }
 
-    public static <A, B, C, R> Func1<A, Func1<B, Func1<C, R>>> curry(final Func3<A, B, C, R> func) {
-        return new Func1<A, Func1<B, Func1<C, R>>>() {
+    public static <A, B, C, R> Function<A, Function<B, Function<C, R>>> curry(final Function3<A, B, C, R> func) {
+        return new Function<A, Function<B, Function<C, R>>>() {
             @Override
-            public Func1<B, Func1<C, R>> call(final A a) {
-                return new Func1<B, Func1<C, R>>() {
+            public Function<B, Function<C, R>> apply(final A a) throws Exception {
+                return new Function<B, Function<C, R>>() {
                     @Override
-                    public Func1<C, R> call(final B b) {
-                        return new Func1<C, R>() {
+                    public Function<C, R> apply(final B b) throws Exception {
+                        return new Function<C, R>() {
                             @Override
-                            public R call(final C c) {
-                                return func.call(a, b, c);
+                            public R apply(final C c) throws Exception {
+                                return func.apply(a, b, c);
                             }
                         };
                     }
@@ -61,21 +69,21 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, R> Func1<A, Func1<B, Func1<C, Func1<D, R>>>> curry(
-            final Func4<A, B, C, D, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, R>>>>() {
+    public static <A, B, C, D, R> Function<A, Function<B, Function<C, Function<D, R>>>> curry(
+            final Function4<A, B, C, D, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, R>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, R>>> call(final A a) {
-                return new Func1<B, Func1<C, Func1<D, R>>>() {
+            public Function<B, Function<C, Function<D, R>>> apply(final A a) throws Exception {
+                return new Function<B, Function<C, Function<D, R>>>() {
                     @Override
-                    public Func1<C, Func1<D, R>> call(final B b) {
-                        return new Func1<C, Func1<D, R>>() {
+                    public Function<C, Function<D, R>> apply(final B b) throws Exception {
+                        return new Function<C, Function<D, R>>() {
                             @Override
-                            public Func1<D, R> call(final C c) {
-                                return new Func1<D, R>() {
+                            public Function<D, R> apply(final C c) throws Exception {
+                                return new Function<D, R>() {
                                     @Override
-                                    public R call(final D d) {
-                                        return func.call(a, b, c, d);
+                                    public R apply(final D d) throws Exception {
+                                        return func.apply(a, b, c, d);
                                     }
                                 };
                             }
@@ -86,24 +94,24 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, E, R> Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, R>>>>> curry(
-            final Func5<A, B, C, D, E, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, R>>>>>() {
+    public static <A, B, C, D, E, R> Function<A, Function<B, Function<C, Function<D, Function<E, R>>>>> curry(
+            final Function5<A, B, C, D, E, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, Function<E, R>>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, Func1<E, R>>>> call(final A a) {
-                return new Func1<B, Func1<C, Func1<D, Func1<E, R>>>>() {
+            public Function<B, Function<C, Function<D, Function<E, R>>>> apply(final A a) throws Exception {
+                return new Function<B, Function<C, Function<D, Function<E, R>>>>() {
                     @Override
-                    public Func1<C, Func1<D, Func1<E, R>>> call(final B b) {
-                        return new Func1<C, Func1<D, Func1<E, R>>>() {
+                    public Function<C, Function<D, Function<E, R>>> apply(final B b) throws Exception {
+                        return new Function<C, Function<D, Function<E, R>>>() {
                             @Override
-                            public Func1<D, Func1<E, R>> call(final C c) {
-                                return new Func1<D, Func1<E, R>>() {
+                            public Function<D, Function<E, R>> apply(final C c) throws Exception {
+                                return new Function<D, Function<E, R>>() {
                                     @Override
-                                    public Func1<E, R> call(final D d) {
-                                        return new Func1<E, R>() {
+                                    public Function<E, R> apply(final D d) throws Exception {
+                                        return new Function<E, R>() {
                                             @Override
-                                            public R call(final E e) {
-                                                return func.call(a, b, c, d, e);
+                                            public R apply(final E e) throws Exception {
+                                                return func.apply(a, b, c, d, e);
                                             }
                                         };
                                     }
@@ -116,27 +124,27 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, E, F, R> Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, R>>>>>> curry(
-            final Func6<A, B, C, D, E, F, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, R>>>>>>() {
+    public static <A, B, C, D, E, F, R> Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, R>>>>>> curry(
+            final Function6<A, B, C, D, E, F, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, R>>>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, R>>>>> call(final A a) {
-                return new Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, R>>>>>() {
+            public Function<B, Function<C, Function<D, Function<E, Function<F, R>>>>> apply(final A a) throws Exception {
+                return new Function<B, Function<C, Function<D, Function<E, Function<F, R>>>>>() {
                     @Override
-                    public Func1<C, Func1<D, Func1<E, Func1<F, R>>>> call(final B b) {
-                        return new Func1<C, Func1<D, Func1<E, Func1<F, R>>>>() {
+                    public Function<C, Function<D, Function<E, Function<F, R>>>> apply(final B b) throws Exception {
+                        return new Function<C, Function<D, Function<E, Function<F, R>>>>() {
                             @Override
-                            public Func1<D, Func1<E, Func1<F, R>>> call(final C c) {
-                                return new Func1<D, Func1<E, Func1<F, R>>>() {
+                            public Function<D, Function<E, Function<F, R>>> apply(final C c) throws Exception {
+                                return new Function<D, Function<E, Function<F, R>>>() {
                                     @Override
-                                    public Func1<E, Func1<F, R>> call(final D d) {
-                                        return new Func1<E, Func1<F, R>>() {
+                                    public Function<E, Function<F, R>> apply(final D d) throws Exception {
+                                        return new Function<E, Function<F, R>>() {
                                             @Override
-                                            public Func1<F, R> call(final E e) {
-                                                return new Func1<F, R>() {
+                                            public Function<F, R> apply(final E e) throws Exception {
+                                                return new Function<F, R>() {
                                                     @Override
-                                                    public R call(final F f) {
-                                                        return func.call(a, b, c, d, e, f);
+                                                    public R apply(final F f) throws Exception {
+                                                        return func.apply(a, b, c, d, e, f);
                                                     }
                                                 };
                                             }
@@ -151,30 +159,30 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, E, F, G, R> Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>>>> curry(
-            final Func7<A, B, C, D, E, F, G, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>>>>() {
+    public static <A, B, C, D, E, F, G, R> Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>>>> curry(
+            final Function7<A, B, C, D, E, F, G, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>>> call(final A a) {
-                return new Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>>>() {
+            public Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>>> apply(final A a) throws Exception {
+                return new Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>>>() {
                     @Override
-                    public Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>> call(final B b) {
-                        return new Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, R>>>>>() {
+                    public Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>> apply(final B b) throws Exception {
+                        return new Function<C, Function<D, Function<E, Function<F, Function<G, R>>>>>() {
                             @Override
-                            public Func1<D, Func1<E, Func1<F, Func1<G, R>>>> call(final C c) {
-                                return new Func1<D, Func1<E, Func1<F, Func1<G, R>>>>() {
+                            public Function<D, Function<E, Function<F, Function<G, R>>>> apply(final C c) throws Exception {
+                                return new Function<D, Function<E, Function<F, Function<G, R>>>>() {
                                     @Override
-                                    public Func1<E, Func1<F, Func1<G, R>>> call(final D d) {
-                                        return new Func1<E, Func1<F, Func1<G, R>>>() {
+                                    public Function<E, Function<F, Function<G, R>>> apply(final D d) throws Exception {
+                                        return new Function<E, Function<F, Function<G, R>>>() {
                                             @Override
-                                            public Func1<F, Func1<G, R>> call(final E e) {
-                                                return new Func1<F, Func1<G, R>>() {
+                                            public Function<F, Function<G, R>> apply(final E e) throws Exception {
+                                                return new Function<F, Function<G, R>>() {
                                                     @Override
-                                                    public Func1<G, R> call(final F f) {
-                                                        return new Func1<G, R>() {
+                                                    public Function<G, R> apply(final F f) throws Exception {
+                                                        return new Function<G, R>() {
                                                             @Override
-                                                            public R call(final G g) {
-                                                                return func.call(a, b, c, d, e, f,
+                                                            public R apply(final G g) throws Exception {
+                                                                return func.apply(a, b, c, d, e, f,
                                                                         g);
                                                             }
                                                         };
@@ -192,37 +200,37 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, E, F, G, H, R> Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>>>> curry(
-            final Func8<A, B, C, D, E, F, G, H, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>>>>() {
+    public static <A, B, C, D, E, F, G, H, R> Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>>>> curry(
+            final Function8<A, B, C, D, E, F, G, H, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>>> call(
+            public Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>>> apply(
                     final A a) {
-                return new Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>>>() {
+                return new Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>>>() {
                     @Override
-                    public Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>> call(
+                    public Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>> apply(
                             final B b) {
-                        return new Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>>() {
+                        return new Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>>() {
                             @Override
-                            public Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>> call(
+                            public Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>> apply(
                                     final C c) {
-                                return new Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, R>>>>>() {
+                                return new Function<D, Function<E, Function<F, Function<G, Function<H, R>>>>>() {
                                     @Override
-                                    public Func1<E, Func1<F, Func1<G, Func1<H, R>>>> call(
+                                    public Function<E, Function<F, Function<G, Function<H, R>>>> apply(
                                             final D d) {
-                                        return new Func1<E, Func1<F, Func1<G, Func1<H, R>>>>() {
+                                        return new Function<E, Function<F, Function<G, Function<H, R>>>>() {
                                             @Override
-                                            public Func1<F, Func1<G, Func1<H, R>>> call(final E e) {
-                                                return new Func1<F, Func1<G, Func1<H, R>>>() {
+                                            public Function<F, Function<G, Function<H, R>>> apply(final E e) throws Exception {
+                                                return new Function<F, Function<G, Function<H, R>>>() {
                                                     @Override
-                                                    public Func1<G, Func1<H, R>> call(final F f) {
-                                                        return new Func1<G, Func1<H, R>>() {
+                                                    public Function<G, Function<H, R>> apply(final F f) throws Exception {
+                                                        return new Function<G, Function<H, R>>() {
                                                             @Override
-                                                            public Func1<H, R> call(final G g) {
-                                                                return new Func1<H, R>() {
+                                                            public Function<H, R> apply(final G g) throws Exception {
+                                                                return new Function<H, R>() {
                                                                     @Override
-                                                                    public R call(final H h) {
-                                                                        return func.call(a, b, c, d,
+                                                                    public R apply(final H h) throws Exception {
+                                                                        return func.apply(a, b, c, d,
                                                                                 e, f, g, h);
                                                                     }
                                                                 };
@@ -242,45 +250,45 @@ public class RxCurryingFunction {
         };
     }
 
-    public static <A, B, C, D, E, F, G, H, I, R> Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>>>> curry(
-            final Func9<A, B, C, D, E, F, G, H, I, R> func) {
-        return new Func1<A, Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>>>>() {
+    public static <A, B, C, D, E, F, G, H, I, R> Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>>>> curry(
+            final Function9<A, B, C, D, E, F, G, H, I, R> func) {
+        return new Function<A, Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>>>>() {
             @Override
-            public Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>>> call(
+            public Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>>> apply(
                     final A a) {
-                return new Func1<B, Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>>>() {
+                return new Function<B, Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>>>() {
                     @Override
-                    public Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>> call(
+                    public Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>> apply(
                             final B b) {
-                        return new Func1<C, Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>>() {
+                        return new Function<C, Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>>() {
                             @Override
-                            public Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>> call(
+                            public Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>> apply(
                                     final C c) {
-                                return new Func1<D, Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>>() {
+                                return new Function<D, Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>>() {
                                     @Override
-                                    public Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>> call(
+                                    public Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>> apply(
                                             final D d) {
-                                        return new Func1<E, Func1<F, Func1<G, Func1<H, Func1<I, R>>>>>() {
+                                        return new Function<E, Function<F, Function<G, Function<H, Function<I, R>>>>>() {
                                             @Override
-                                            public Func1<F, Func1<G, Func1<H, Func1<I, R>>>> call(
+                                            public Function<F, Function<G, Function<H, Function<I, R>>>> apply(
                                                     final E e) {
-                                                return new Func1<F, Func1<G, Func1<H, Func1<I, R>>>>() {
+                                                return new Function<F, Function<G, Function<H, Function<I, R>>>>() {
                                                     @Override
-                                                    public Func1<G, Func1<H, Func1<I, R>>> call(
+                                                    public Function<G, Function<H, Function<I, R>>> apply(
                                                             final F f) {
-                                                        return new Func1<G, Func1<H, Func1<I, R>>>() {
+                                                        return new Function<G, Function<H, Function<I, R>>>() {
                                                             @Override
-                                                            public Func1<H, Func1<I, R>> call(
+                                                            public Function<H, Function<I, R>> apply(
                                                                     final G g) {
-                                                                return new Func1<H, Func1<I, R>>() {
+                                                                return new Function<H, Function<I, R>>() {
                                                                     @Override
-                                                                    public Func1<I, R> call(
+                                                                    public Function<I, R> apply(
                                                                             final H h) {
-                                                                        return new Func1<I, R>() {
+                                                                        return new Function<I, R>() {
                                                                             @Override
-                                                                            public R call(
-                                                                                    final I i) {
-                                                                                return func.call(a,
+                                                                            public R apply(
+                                                                                    final I i) throws Exception{
+                                                                                return func.apply(a,
                                                                                         b, c, d, e,
                                                                                         f, g, h, i);
                                                                             }
