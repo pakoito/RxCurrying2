@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.pacoworks.rxcurrying;
+package com.pacoworks.rxcurrying2;
 
 import rx.functions.*;
 
@@ -23,8 +23,9 @@ import rx.functions.*;
  *
  * @author pakoito
  */
-public class RxCurryingAction {
-    private RxCurryingAction() {
+public class RxCurryingConsumer {
+    private RxCurryingConsumer() {
+        // No instances
     }
 
     public static <A, B> Func1<A, Action1<B>> curry(final Action2<A, B> action) {

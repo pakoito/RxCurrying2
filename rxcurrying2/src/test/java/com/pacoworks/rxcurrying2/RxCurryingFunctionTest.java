@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) pakoito 2016
  *
@@ -15,29 +14,30 @@
  * limitations under the License.
  */
 
-package com.pacoworks.rxcurrying;
+package com.pacoworks.rxcurrying2;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import rx.functions.Action1;
-import rx.functions.Action2;
 import rx.functions.Func1;
+import rx.functions.Func5;
 
 /**
  * Created by Paco on 14/02/2016. See LICENSE.md
  */
-public class RxCurryingActionTest {
+public class RxCurryingFunctionTest {
     @Test
     public void curry() throws Exception {
-        Func1<Integer, Action1<Integer>> variable = RxCurryingAction
-                .curry(new Action2<Integer, Integer>() {
+        Func1<String, Func1<String, Func1<String, Func1<String, Func1<String, String>>>>> secondVariable = RxCurryingFunction
+                .curry(new Func5<String, String, String, String, String, String>() {
                     @Override
-                    public void call(Integer first, Integer second) {
-                        Assert.assertEquals(5, first + second);
+                    public String call(String first, String second, String third, String fourth,
+                            String fifth) {
+                        return first + second + third + fourth + fifth;
                     }
                 });
-        Action1<Integer> firstForm = variable.call(3);
-        firstForm.call(2);
+        String result = secondVariable.call("Hello ").call("This ").call("Is ").call("Curried ")
+                .call("Func");
+        Assert.assertEquals("Hello This Is Curried Func", result);
     }
 }
